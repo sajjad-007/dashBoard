@@ -1,4 +1,4 @@
-import { Button } from "@material-tailwind/react";
+import { Button,Input } from "@material-tailwind/react";
 import React from "react";
 import BannerTable from "../materialTailwind/BannerTable";
 
@@ -8,9 +8,11 @@ const BannerComponent = () => {
       {/* Banner upload part */}
       <div className="flex flex-col gap-8">
         <div className="w-full max-w-md min-w-[200px]">
-          <input
-            className="w-full bg-transparent placeholder:text-text2-black text-text2-black text-sm border-[3px] border-slate-400 rounded-md px-3 py-4 transition duration-300 ease focus:outline-none focus:border-text2-black hover:border-slate-300 shadow-sm focus:shadow"
-            placeholder="Banner Title"
+        <Input
+            size="md"
+            label="Banner Title"
+            color="black"
+            name="title"
           />
         </div>
         <div className="flex items-center justify-center w-full">

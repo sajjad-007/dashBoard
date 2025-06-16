@@ -28,6 +28,8 @@ import { AiFillPicture } from "react-icons/ai";
 import { IoFlashSharp } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { AiOutlineBars } from "react-icons/ai";
+import { HiBars3BottomLeft } from "react-icons/hi2";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(0);
@@ -62,28 +64,45 @@ const Sidebar = () => {
               <ListItemPrefix>
                 <HomeIcon class="h-6 w-6 text-text2-black" />
               </ListItemPrefix>
-                <Typography
-                  color="blue-gray"
-                  className="mr-auto font-normal capitalize"
-                >
-             
-                  home
-             
-                </Typography>
+              <Typography
+                color="blue-gray"
+                className="mr-auto font-normal capitalize"
+              >
+                home
+              </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
               <Link to={"/banner"}>
-              
-              <ListItem>
-                <ListItemPrefix>
-                  <span className="text-xl">
-                    <AiFillPicture />
-                  </span>
-                </ListItemPrefix>
-               banner
-              </ListItem>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <AiFillPicture />
+                    </span>
+                  </ListItemPrefix>
+                  banner
+                </ListItem>
+              </Link>
+              <Link to={"/category"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <AiOutlineBars />
+                    </span>
+                  </ListItemPrefix>
+                  Category
+                </ListItem>
+              </Link>
+              <Link to={"/sub-category"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <HiBars3BottomLeft />
+                    </span>
+                  </ListItemPrefix>
+                  sub category
+                </ListItem>
               </Link>
               <ListItem>
                 <ListItemPrefix>

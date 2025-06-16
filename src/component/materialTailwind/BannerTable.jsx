@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Button,
+  Input,
   Card,
   Typography,
   Dialog,
@@ -9,7 +10,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["Name", "Job", "Employed", "Edit/Delete"];
+const TABLE_HEAD = ["Title", "Description", "Image", "Edit/Delete"];
 const TABLE_ROWS = [
   {
     name: "John Michael",
@@ -36,43 +37,14 @@ const TABLE_ROWS = [
     job: "Manager",
     date: "04/10/21",
   },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
 ];
 const BannerTable = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
   return (
     <div>
-      <Card className="h-[460px] w-full overflow-y-scroll inputField">
+      {/* table lists */}
+      <Card className="h-[500px] w-full overflow-y-scroll">
         <table className="w-full min-w-max table-auto text-center">
           <thead className="sticky top-0 z-10">
             <tr>
@@ -135,14 +107,18 @@ const BannerTable = () => {
           </tbody>
         </table>
       </Card>
-      {/* Edit modal */}
+      {/* table lists */}
+
+      {/* Edit's modal */}
       <Dialog open={open} handler={handleOpen}>
         <DialogBody>
           <div className="flex flex-col gap-8">
             <div className="w-full max-w-md min-w-[200px]">
-              <input
-                className="w-full bg-transparent placeholder:text-text2-black text-text2-black text-sm border-[3px] border-slate-400 rounded-md px-3 py-4 transition duration-300 ease focus:outline-none focus:border-text2-black hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder="Enter banner title"
+              <Input
+                size="md"
+                label="Banner Title"
+                color="black"
+                name="title"
               />
             </div>
             <div className="flex items-center justify-center w-full">
@@ -177,9 +153,6 @@ const BannerTable = () => {
                 <input id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
-            <Button className="font-poppins bg-text2-black text-lg capitalize px-4 py-4 w-52 mx-auto">
-              Upload
-            </Button>
           </div>
         </DialogBody>
         <DialogFooter className="mt-4">
@@ -192,7 +165,7 @@ const BannerTable = () => {
             <span>Cancel</span>
           </Button>
           <Button variant="gradient" color="green" onClick={handleOpen}>
-            <span>Confirm</span>
+            <span>Update</span>
           </Button>
         </DialogFooter>
       </Dialog>
