@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import BannerComponent from "../../component/flowbite/BannerComponent";
 
 const Banner = () => {
   return (
-    <div> my Banner</div>
-  )
-}
+    <div>
+      <BannerComponent />
+    </div>
+  );
+};
 
-export default Banner
+export default Banner;

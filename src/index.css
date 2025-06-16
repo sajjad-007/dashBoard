@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import "flowbite/src/themes/default"; */
+
+@layer base {
+  @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+  * {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    font-family: var(--inter);
+  }
+  ul,
+  li,
+  ol {
+    list-style-type: none;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a {
+    line-height: 0.8;
+  }
+  a {
+    display: inline-block;
+    text-decoration: none;
+  }
+  img {
+    vertical-align: middle;
+  }
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  /* input[type=number] {
+  -moz-appearance: textfield;
+} */
+}
+
+:root {
+  --primary-fff: #ffffff;
+  --primary-363: #363738;
+  --secondary-f5f: #f5f5f5;
+  --secondary-fef: #fefaf1;
+  --text-faf: #fafafa;
+  --text-7d8: #7d8184;
+  --text2-black: #000000;
+  --black2626: #262626;
+  --secondary2-db44: #db4444;
+  --button-black: #000000;
+  --button-green: #00ff66;
+  --button-red: #db4444;
+  --hover-btn-red: #e07575;
+  --hover-btn-sky: #a0bce0;
+  --poppins: "Poppins", sans-serif;
+  --inter: "Inter", sans-serif;
+}
+
+

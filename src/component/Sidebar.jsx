@@ -19,7 +19,15 @@ import {
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
-import { ChevronRightIcon, ChevronDownIcon, HomeIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronRightIcon,
+  ChevronDownIcon,
+  HomeIcon,
+} from "@heroicons/react/24/outline";
+import { AiFillPicture } from "react-icons/ai";
+import { IoFlashSharp } from "react-icons/io5";
+import { BiSolidCategory } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(0);
@@ -52,23 +60,46 @@ const Sidebar = () => {
               className="border-b-0 p-3"
             >
               <ListItemPrefix>
-                <HomeIcon class="h-6 w-6 text-gray-500" />
+                <HomeIcon class="h-6 w-6 text-text2-black" />
               </ListItemPrefix>
-              <Typography
-                color="blue-gray"
-                className="mr-auto font-normal capitalize"
-              >
-                home
-              </Typography>
+                <Typography
+                  color="blue-gray"
+                  className="mr-auto font-normal capitalize"
+                >
+             
+                  home
+             
+                </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
+              <Link to={"/banner"}>
+              
               <ListItem>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <span className="text-xl">
+                    <AiFillPicture />
+                  </span>
                 </ListItemPrefix>
-                Analytics
+               banner
+              </ListItem>
+              </Link>
+              <ListItem>
+                <ListItemPrefix>
+                  <span className="text-xl">
+                    <IoFlashSharp />
+                  </span>
+                </ListItemPrefix>
+                flash sale
+              </ListItem>
+              <ListItem>
+                <ListItemPrefix>
+                  <span className="text-xl">
+                    <BiSolidCategory />
+                  </span>
+                </ListItemPrefix>
+                browse by category
               </ListItem>
             </List>
           </AccordionBody>
@@ -92,7 +123,10 @@ const Sidebar = () => {
               <ListItemPrefix>
                 <ShoppingBagIcon className="h-5 w-5" />
               </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal capitalize">
+              <Typography
+                color="blue-gray"
+                className="mr-auto font-normal capitalize"
+              >
                 e-commerce
               </Typography>
             </AccordionHeader>
