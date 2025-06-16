@@ -30,6 +30,8 @@ import { BiSolidCategory } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AiOutlineBars } from "react-icons/ai";
 import { HiBars3BottomLeft } from "react-icons/hi2";
+import { MdSell } from "react-icons/md";
+import { RiAlignItemLeftFill } from "react-icons/ri";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(0);
@@ -104,22 +106,37 @@ const Sidebar = () => {
                   sub category
                 </ListItem>
               </Link>
-              <ListItem>
-                <ListItemPrefix>
-                  <span className="text-xl">
-                    <IoFlashSharp />
-                  </span>
-                </ListItemPrefix>
-                flash sale
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <span className="text-xl">
-                    <BiSolidCategory />
-                  </span>
-                </ListItemPrefix>
-                browse by category
-              </ListItem>
+              <Link to={"/flashsale"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <IoFlashSharp />
+                    </span>
+                  </ListItemPrefix>
+                  flash Sale
+                </ListItem>
+              </Link>
+              <Link to={"/bestselling"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl ">
+                      <MdSell />
+                    </span>
+                  </ListItemPrefix>
+                  Best selling
+                </ListItem>
+              </Link>
+
+              <Link to={"/browsebycategory"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <BiSolidCategory />
+                    </span>
+                  </ListItemPrefix>
+                  browse by category
+                </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>
@@ -152,18 +169,17 @@ const Sidebar = () => {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
+              <Link to={"/product"}>
               <ListItem>
                 <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Orders
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  <span className="text-xl">
+                    <RiAlignItemLeftFill />
+                  </span>
+
                 </ListItemPrefix>
                 Products
               </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>

@@ -11,29 +11,9 @@ import {
   Option,
 } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["Name", "Category ID", "Image", "Edit/Delete"];
+const TABLE_HEAD = ["Name", "Product ID", "Image", "Edit/Delete"];
 const TABLE_ROWS = [
   {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
     name: "Richard Gran",
     job: "Manager",
     date: "04/10/21",
@@ -57,19 +37,9 @@ const TABLE_ROWS = [
     name: "Laurent Perrier",
     job: "Executive",
     date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
   },
 ];
-const SubCategoryComnent = () => {
+const BestSellingComponent = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
   return (
@@ -78,30 +48,27 @@ const SubCategoryComnent = () => {
       <div className="flex flex-col gap-8">
         {/* Subcategory title */}
         <div className="w-full  min-w-[200px]">
-          <Input
-            size="md"
-            label="Sub Category Name"
-            color="black"
-            name="title"
-          />
+          <Input size="md" label="Best Selling Product Name" color="black" name="title"  />
         </div>
 
         {/* Select option */}
         <div className="w-full">
-          <Select label="Select Category ID">
+          <Select label="Product ID">
             <Option>Material Tailwind HTML</Option>
             <Option>Material Tailwind React</Option>
-            <Option>Material Tailwind Vue</Option>
-            <Option>Material Tailwind Angular</Option>
-            <Option>Material Tailwind Svelte</Option>
           </Select>
         </div>
         {/* Select option  */}
 
         {/* upload button */}
-        <Button className="font-poppins bg-text2-black text-md capitalize px-6 py-4 mx-auto">
-          Create SubCategory
-        </Button>
+        <div className="flex items-center gap-10">
+          <Button className="font-poppins bg-text2-black text-md capitalize px-6 py-4 ">
+            Create best selling product
+          </Button>
+          <Button className="font-poppins bg-text2-black text-md capitalize px-6 py-4 ">
+            Search best selling product
+          </Button>
+        </div>
       </div>
       {/*  upload part */}
 
@@ -180,7 +147,7 @@ const SubCategoryComnent = () => {
               <div className="w-full  min-w-[200px]">
                 <Input
                   size="md"
-                  label="Sub Category Name"
+                  label="Best selling product Name"
                   color="black"
                   name="title"
                 />
@@ -188,15 +155,11 @@ const SubCategoryComnent = () => {
 
               {/* Select option */}
               <div className="w-full">
-                <Select label="Select Category ID">
+                <Select label="Product ID">
                   <Option>Material Tailwind HTML</Option>
                   <Option>Material Tailwind React</Option>
-                  <Option>Material Tailwind Vue</Option>
-                  <Option>Material Tailwind Angular</Option>
-                  <Option>Material Tailwind Svelte</Option>
                 </Select>
               </div>
-              
             </div>
           </DialogBody>
           <DialogFooter className="mt-4">
@@ -219,4 +182,4 @@ const SubCategoryComnent = () => {
   );
 };
 
-export default SubCategoryComnent;
+export default BestSellingComponent;

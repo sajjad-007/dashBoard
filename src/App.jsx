@@ -10,6 +10,9 @@ import Home from "./pages/home/Home.jsx";
 import Banner from "./pages/banner/Banner.jsx";
 import Category from "./pages/category/Category.jsx";
 import SubCategory from "./pages/subCategory/SubCategory.jsx";
+import FlashSale from "./pages/flashSale/FlashSale.jsx";
+import BrowseByCategory from "./pages/BrowseByCategory/BrowseByCategory.jsx";
+import BestSelling from "./pages/bestSelling/BestSelling.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -18,6 +21,9 @@ function App() {
       <Route path="/banner" element={<Banner/>}/>
       <Route path="/category" element={<Category/>}/>
       <Route path="/sub-category" element={<SubCategory/>}/>
+      <Route path="/flashsale" element={<FlashSale/>}/>
+      <Route path="/browsebycategory" element={<BrowseByCategory/>}/>
+      <Route path="/bestselling" element={<BestSelling/>}/>
      </Route>
     )
   );
