@@ -44,7 +44,7 @@ const Sidebar = () => {
     <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <div className="mb-2 p-4">
         <Typography variant="h5" color="blue-gray">
-          Sidebar
+          Dashboard
         </Typography>
       </div>
       <List>
@@ -185,7 +185,6 @@ const Sidebar = () => {
                   <ListItemPrefix>
                     <span className="text-xl">
                       <FaClipboardList />
-                      
                     </span>
                   </ListItemPrefix>
                   Product Lists
@@ -194,21 +193,23 @@ const Sidebar = () => {
             </List>
           </AccordionBody>
         </Accordion>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue-gray"
-              className="rounded-full"
-            />
-          </ListItemSuffix>
-        </ListItem>
+        <Link to="/order">
+          <ListItem>
+            <ListItemPrefix>
+              <InboxIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Order
+            <ListItemSuffix>
+              <Chip
+                value="14"
+                size="sm"
+                variant="ghost"
+                color="blue-gray"
+                className="rounded-full"
+              />
+            </ListItemSuffix>
+          </ListItem>
+        </Link>
         <ListItem>
           <ListItemPrefix>
             <UserCircleIcon className="h-5 w-5" />
