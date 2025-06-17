@@ -32,6 +32,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import { HiBars3BottomLeft } from "react-icons/hi2";
 import { MdSell } from "react-icons/md";
 import { RiAlignItemLeftFill } from "react-icons/ri";
+import { FaClipboardList } from "react-icons/fa6";
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(0);
@@ -170,15 +171,25 @@ const Sidebar = () => {
           <AccordionBody className="py-1">
             <List className="p-0">
               <Link to={"/product"}>
-              <ListItem>
-                <ListItemPrefix>
-                  <span className="text-xl">
-                    <RiAlignItemLeftFill />
-                  </span>
-
-                </ListItemPrefix>
-                Products
-              </ListItem>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <RiAlignItemLeftFill />
+                    </span>
+                  </ListItemPrefix>
+                  Products
+                </ListItem>
+              </Link>
+              <Link to={"/productlist"}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <span className="text-xl">
+                      <FaClipboardList />
+                      
+                    </span>
+                  </ListItemPrefix>
+                  Product Lists
+                </ListItem>
               </Link>
             </List>
           </AccordionBody>

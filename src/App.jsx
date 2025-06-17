@@ -14,6 +14,7 @@ import FlashSale from "./pages/flashSale/FlashSale.jsx";
 import BrowseByCategory from "./pages/BrowseByCategory/BrowseByCategory.jsx";
 import BestSelling from "./pages/bestSelling/BestSelling.jsx";
 import Product from "./pages/Product/Product.jsx";
+import ProductList from "./pages/Product/ProductList.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -26,6 +27,7 @@ function App() {
       <Route path="/browsebycategory" element={<BrowseByCategory/>}/>
       <Route path="/bestselling" element={<BestSelling/>}/>
       <Route path="/product" element={<Product/>}/>
+      <Route path="/productlist" element={<ProductList/>}/>
      </Route>
     )
   );

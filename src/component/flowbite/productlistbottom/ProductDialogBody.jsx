@@ -7,7 +7,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 
-const ProductComponentTop = () => {
+const ProductDialogBody = () => {
   return (
     <div className="main-div flex flex-col gap-7">
       <div className="flex gap-4">
@@ -20,7 +20,7 @@ const ProductComponentTop = () => {
         />
         <Input
           size="md"
-          label="Rating"
+          label="Current Stock"
           color="black"
           name="title"
           className=" py-5 "
@@ -64,14 +64,6 @@ const ProductComponentTop = () => {
           className=" py-5 "
           type="number"
         />
-        <Input
-          size="md"
-          label="Current Stock"
-          color="black"
-          name="title"
-          className=" py-5 "
-          type="number"
-        />
       </div>
       <div className="flex gap-4">
         <Input
@@ -89,7 +81,11 @@ const ProductComponentTop = () => {
           className=" py-5 "
         />
       </div>
-      <div className="flex gap-4 h-[150px]">
+      <div className="flex gap-4 ">
+        <Textarea label="Product Description....." className="h-[30px]"/>
+        <Textarea label="Write Your Review........." className="h-[30px]" />
+      </div>
+      <div className="flex gap-4 items-center">
         {/* Image upload part */}
         <div className="flex items-center justify-center w-full ">
           <label
@@ -124,16 +120,17 @@ const ProductComponentTop = () => {
           </label>
         </div>
         {/* Image upload part */}
-        <Textarea label="Product Description" />
-        <Textarea label="Write Your Review" />
-      </div>
-      <div className="flex items-center justify-center mt-3">
-        <Button className="font-poppins bg-text2-black text-md capitalize px-6 py-4 ">
-          Create your product
-        </Button>
+        <Input
+          size="md"
+          label="Rating"
+          color="black"
+          name="title"
+          className=" py-5 "
+          type="number"
+        />
       </div>
     </div>
   );
 };
 
-export default ProductComponentTop;
+export default ProductDialogBody;
