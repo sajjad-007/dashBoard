@@ -1,5 +1,5 @@
 // import { Button } from "@material-tailwind/react"
-import Sidebar from "./component/Sidebar.jsx"
+import Sidebar from "./component/Sidebar.jsx";
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -18,32 +18,35 @@ import ProductList from "./pages/Product/ProductList.jsx";
 import Order from "./pages/order/Order.jsx";
 import SingleOrder from "./pages/order/SingleOrder.jsx";
 import ContactList from "./pages/contactList/ContactList.jsx";
-
+import SignUp from "./pages/signup/SignUp.jsx";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-     <Route path="/"  element={<Home/>} >
-      <Route path="/banner" element={<Banner/>}/>
-      <Route path="/category" element={<Category/>}/>
-      <Route path="/sub-category" element={<SubCategory/>}/>
-      <Route path="/flashsale" element={<FlashSale/>}/>
-      <Route path="/browsebycategory" element={<BrowseByCategory/>}/>
-      <Route path="/bestselling" element={<BestSelling/>}/>
-      <Route path="/product" element={<Product/>}/>
-      <Route path="/productlist" element={<ProductList/>}/>
-      <Route path="/order" element={<Order/>}/>
-      <Route path="/order/:id" element={<SingleOrder/>}/>
-      <Route path="/contactlist" element={<ContactList/>}/>
-     </Route>
+      <Route>
+        <Route path="/" element={<Home />}>
+          <Route path="/banner" element={<Banner />} />
+          <Route path="/category" element={<Category />} />
+          <Route path="/sub-category" element={<SubCategory />} />
+          <Route path="/flashsale" element={<FlashSale />} />
+          <Route path="/browsebycategory" element={<BrowseByCategory />} />
+          <Route path="/bestselling" element={<BestSelling />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/productlist" element={<ProductList />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/order/:id" element={<SingleOrder />} />
+          <Route path="/contactlist" element={<ContactList />} />
+        </Route>
+        <Route path="/signup" element={<SignUp />} />
+      </Route>
     )
   );
 
   return (
-   <>
+    <>
       <RouterProvider router={router} />
-   </>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;
