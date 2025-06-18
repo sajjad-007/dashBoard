@@ -20,6 +20,7 @@ import SingleOrder from "./pages/order/SingleOrder.jsx";
 import ContactList from "./pages/contactList/ContactList.jsx";
 import SignUp from "./pages/signup/SignUp.jsx";
 import LogIn from "./pages/Login/LogIn.jsx";
+import Error from "./component/error/Error.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -40,6 +41,7 @@ function App() {
         </Route>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="*" element={<Error />} />
       </Route>
     )
   );
