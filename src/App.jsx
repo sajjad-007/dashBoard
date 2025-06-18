@@ -17,6 +17,7 @@ import Product from "./pages/Product/Product.jsx";
 import ProductList from "./pages/Product/ProductList.jsx";
 import Order from "./pages/order/Order.jsx";
 import SingleOrder from "./pages/order/SingleOrder.jsx";
+import ContactList from "./pages/contactList/ContactList.jsx";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Route path="/productlist" element={<ProductList/>}/>
       <Route path="/order" element={<Order/>}/>
       <Route path="/order/:id" element={<SingleOrder/>}/>
+      <Route path="/contactlist" element={<ContactList/>}/>
      </Route>
     )
   );

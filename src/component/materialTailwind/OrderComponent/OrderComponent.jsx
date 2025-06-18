@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const OrderComponent = () => {
   return (
@@ -131,12 +132,12 @@ const OrderComponent = () => {
                     >
                       Cancel order
                     </button>
-                    <a
-                      href="#"
+                    <Link
+                      to={`/order/${"sdfsd"}`}
                       className="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
                       View details
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}
