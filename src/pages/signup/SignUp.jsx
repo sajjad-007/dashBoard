@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../component/button/Button.jsx";
-import login from "../../assets/login/login.png";
+import login from "../../assets/signuppage.jpg";
 import { useFormik } from "formik";
 import RegValidation from "../validation/auth/RegValidation.jsx";
 import { FaEyeSlash } from "react-icons/fa";
@@ -41,12 +41,12 @@ const SignUp = () => {
     setShowHide(!showHide);
   };
   return (
-    <div className="main pt-[60px] pb-36">
+    <div className="main">
       <ToastContainer />
       <div className="container">
-        <div className="flex gap-[80px] justify-between my-7">
+        <div className="flex gap-[80px] justify-between mt-6">
           {/* image part */}
-          <div className="Img_part w-[64%] h-[601px] overflow-hidden relative left-[-42px]">
+          <div className="Img_part w-[64%] h-[full] overflow-hidden relative left-[-42px]">
             <img
               src={login}
               alt="not found"
@@ -55,7 +55,7 @@ const SignUp = () => {
           </div>
 
           {/* log in part */}
-          <div className="text_part w-[36%]">
+          <div className="text_part w-[36%] ">
             <div className="flex flex-col gap-12">
               {/* Heading part */}
               <div className="headings flex flex-col gap-6">
@@ -121,14 +121,14 @@ const SignUp = () => {
                     />
                     {showHide ? (
                       <span
-                        className="absolute right-[5%] top-[20%] translate-y-[20%]  text-xl cursor-pointer"
+                        className="absolute right-[20%] top-[20%] translate-y-[20%]  text-xl cursor-pointer"
                         onClick={handleHideShow}
                       >
                         <IoEye />
                       </span>
                     ) : (
                       <span
-                        className="absolute right-[5%] top-[20%] translate-y-[20%] text-xl cursor-pointer"
+                        className="absolute right-[20%] top-[20%] translate-y-[20%] text-xl cursor-pointer"
                         onClick={handleHideShow}
                       >
                         <FaEyeSlash />
