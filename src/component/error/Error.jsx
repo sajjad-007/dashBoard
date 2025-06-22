@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Error = () => {
   return (
@@ -11,7 +11,7 @@ const Error = () => {
             Sorry we couldn't find the page you're looking for
           </p>
           <Link
-            to={'/'}
+            to={"/"}
             className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-green-600 active:bg-red-600 hover:bg-red-700"
           >
             Back to homepage
@@ -25,7 +25,7 @@ const Error = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Error
+export default Error;
