@@ -20,9 +20,37 @@ export const exclusiveApi = createApi({
       query: () => `/banner`,
       providesTags: ["banner"],
     }),
+    updateBanner: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: (data) => {
+        //for postman form-data we have to follow this process
+        const formdata = new FormData();
+        formdata.append("title", data.title);
+        formdata.append("image", data.image);
+        return {
+          url: `/banner/${data.id}`,
+          method: "PUT",
+          body: formdata,
+        };
+      },
+      invalidatesTags: ["banner"],
+    }),
+    deleteBanner: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: (id) => ({
+        url: `/banner/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["banner"],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useUploadBannerMutation, useGetAllBannerQuery } = exclusiveApi;
+export const {
+  useUploadBannerMutation,
+  useGetAllBannerQuery,
+  useUpdateBannerMutation,
+  useDeleteBannerMutation,
+} = exclusiveApi;

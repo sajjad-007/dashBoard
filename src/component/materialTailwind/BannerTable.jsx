@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -9,43 +9,64 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { useGetAllBannerQuery } from "../../feature/api/exclusive";
+import { useForm } from "react-hook-form";
+import {
+  useDeleteBannerMutation,
+  useGetAllBannerQuery,
+  useUpdateBannerMutation,
+} from "../../feature/api/exclusive";
+import { toastError, toastSuccess } from "../utility/toastify";
+import { DNA } from "react-loader-spinner";
 
 const TABLE_HEAD = ["Title", "Image", "Edit/Delete"];
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
-];
+
 const BannerTable = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(!open);
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
   const { data } = useGetAllBannerQuery();
-  console.log(data?.data);
+  const [updateBanner, { isLoading: updateLoading }] =
+    useUpdateBannerMutation();
+  const [deleteBanner, { isLoading: delteLoading }] = useDeleteBannerMutation();
 
+  const [open, setOpen] = React.useState(false);
+  const [temp, setTemp] = useState({});
+  const [uservalue, setUserValue] = useState({
+    title: "",
+    image: "",
+  });
+
+  const handleOpen = ({ ...obj }) => {
+    setTemp(obj);
+    setOpen(!open);
+  };
+  const handleUpdate = async () => {
+    try {
+      const response = await updateBanner({ ...uservalue, id: temp._id });
+      if (response) {
+        toastSuccess(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("error from handleUpdate", error);
+      // toastError(response?.data?.error);
+    } finally {
+      setOpen(false);
+    }
+  };
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteBanner(id);
+      if (response) {
+        toastSuccess(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("error from handleDelete", error);
+    }
+  };
   return (
     <div>
       {/* table lists */}
@@ -70,37 +91,56 @@ const BannerTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.data?.slice().reverse().map(({ title, image, _id }, index) => (
-              <tr key={_id} className="even:bg-blue-gray-50/50">
-                <td className="p-4">
-                  <Typography
-                    variant="medium"
-                    color="blue-gray"
-                    className="font-normal uppercase"
-                  >
-                    {title}
-                  </Typography>
-                </td>
+            {data?.data
+              ?.slice()
+              ?.reverse()
+              ?.map(({ title, image, _id }, index) => (
+                <tr key={_id} className="even:bg-blue-gray-50/50">
+                  <td className="p-4">
+                    <Typography
+                      variant="medium"
+                      color="blue-gray"
+                      className="font-normal uppercase"
+                    >
+                      {title}
+                    </Typography>
+                  </td>
 
-                <td className="py-4">
-                  <div className=" w-[170px] h-[170px] mx-auto">
-                    <img
-                      src={image}
-                      alt="not found"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </td>
-                <td className="p-4 ">
-                  <div className="flex gap-[4px] justify-center">
-                    <Button color="green" onClick={handleOpen}>
-                      Edit
-                    </Button>
-                    <Button color="red">Del</Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  <td className="py-4">
+                    <div className=" w-[170px] h-[170px] mx-auto">
+                      <img
+                        src={image}
+                        alt="not found"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </td>
+                  <td className="p-4 ">
+                    <div className="flex gap-[4px] justify-center">
+                      <Button
+                        color="green"
+                        onClick={() => handleOpen({ title, image, _id })}
+                      >
+                        Edit
+                      </Button>
+                      {delteLoading ? (
+                        <DNA
+                          visible={true}
+                          height="80"
+                          width="80"
+                          ariaLabel="dna-loading"
+                          wrapperStyle={{}}
+                          wrapperClass="dna-wrapper"
+                        />
+                      ) : (
+                        <Button color="red" onClick={() => handleDelete(_id)}>
+                          Delete
+                        </Button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </Card>
@@ -108,63 +148,96 @@ const BannerTable = () => {
 
       {/* Edit's modal */}
       <Dialog open={open} handler={handleOpen}>
-        <DialogBody>
-          <div className="flex flex-col gap-8">
-            <div className="w-full max-w-md min-w-[200px]">
-              <Input
-                size="md"
-                label="Banner Title"
-                color="black"
-                name="title"
-              />
-            </div>
-            <div className="flex items-center justify-center w-full">
-              <label
-                htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-              >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg
-                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <DialogBody>
+            <div className="flex flex-col gap-8">
+              <div className="w-full max-w-md min-w-[200px]">
+                <Input
+                  size="md"
+                  label="Banner Title"
+                  color="black"
+                  name="title"
+                  defaultValue={temp.title}
+                  onChange={(e) =>
+                    setUserValue({ ...uservalue, title: e.target.value })
+                  }
+                  // {...register(temp.title)}
+                />
+              </div>
+              <div className="flex items-center gap-5  justify-center w-full">
+                <div className="h-[full] w-[89%] rounded-xl">
+                  <img
+                    src={temp.image}
+                    alt="not found"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <input id="dropzone-file" type="file" className="hidden" />
-              </label>
+                <label
+                  htmlFor="dropzone-file2"
+                  className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Click to upload</span> or
+                      drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file2"
+                    type="file"
+                    className="hidden"
+                    // {...register(temp.image)}
+                    onChange={(e) =>
+                      setUserValue({ ...uservalue, image: e.target.files[0] })
+                    }
+                  />
+                </label>
+              </div>
             </div>
-          </div>
-        </DialogBody>
-        <DialogFooter className="mt-4">
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleOpen}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
-            <span>Update</span>
-          </Button>
-        </DialogFooter>
+          </DialogBody>
+          <DialogFooter className="mt-4">
+            <Button color="red" onClick={handleOpen} className="mr-6">
+              cancel
+            </Button>
+            {updateLoading ? (
+              <DNA
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="dna-loading"
+                wrapperStyle={{}}
+                wrapperClass="dna-wrapper"
+              />
+            ) : (
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={handleUpdate}
+                type="submit"
+              >
+                Update
+              </Button>
+            )}
+          </DialogFooter>
+        </form>
       </Dialog>
     </div>
   );

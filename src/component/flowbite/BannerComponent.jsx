@@ -13,12 +13,12 @@ const BannerComponent = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
   const [uploadBanner, { isLoading: bannerLoading, isError }] =
     useUploadBannerMutation();
   const { data } = useGetAllBannerQuery();
-  console.log(data?.data);
   const handleBanner = async (data) => {
     try {
       // for postman form-data(image upload)
@@ -33,8 +33,11 @@ const BannerComponent = () => {
     } catch (error) {
       console.log("error from handlebannerUpload", error);
       toastError();
+    } finally {
+      reset();
     }
   };
+
   return (
     <div className="flex flex-col gap-12">
       {/* Banner upload part */}
