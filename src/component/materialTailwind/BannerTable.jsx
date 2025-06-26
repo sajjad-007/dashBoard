@@ -31,7 +31,8 @@ const BannerTable = () => {
   const { data } = useGetAllBannerQuery();
   const [updateBanner, { isLoading: updateLoading }] =
     useUpdateBannerMutation();
-  const [deleteBanner, { isLoading: delteLoading }] = useDeleteBannerMutation();
+  const [deleteBanner] = useDeleteBannerMutation();
+  const [deleteLoading, setDeleteLoading] = useState(null);
 
   const [open, setOpen] = React.useState(false);
   const [temp, setTemp] = useState({});
@@ -58,6 +59,7 @@ const BannerTable = () => {
     }
   };
   const handleDelete = async (id) => {
+    setDeleteLoading(id);
     try {
       const response = await deleteBanner(id);
       if (response) {
@@ -65,6 +67,8 @@ const BannerTable = () => {
       }
     } catch (error) {
       console.error("error from handleDelete", error);
+    } finally {
+      setDeleteLoading(null);
     }
   };
   return (
@@ -116,26 +120,28 @@ const BannerTable = () => {
                     </div>
                   </td>
                   <td className="p-4 ">
-                    <div className="flex gap-[4px] justify-center">
-                      <Button
-                        color="green"
-                        onClick={() => handleOpen({ title, image, _id })}
-                      >
-                        Edit
-                      </Button>
-                      {delteLoading ? (
+                    <div className="flex mx-auto justify-center">
+                      {deleteLoading == _id ? (
                         <DNA
                           visible={true}
-                          height="80"
-                          width="80"
+                          height="70"
+                          width="70"
                           ariaLabel="dna-loading"
                           wrapperStyle={{}}
                           wrapperClass="dna-wrapper"
                         />
                       ) : (
-                        <Button color="red" onClick={() => handleDelete(_id)}>
-                          Delete
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            color="green"
+                            onClick={() => handleOpen({ title, image, _id })}
+                          >
+                            Edit
+                          </Button>
+                          <Button color="red" onClick={() => handleDelete(_id)}>
+                            Delete
+                          </Button>
+                        </div>
                       )}
                     </div>
                   </td>
