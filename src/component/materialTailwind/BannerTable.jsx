@@ -9,8 +9,9 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
+import { useGetAllBannerQuery } from "../../feature/api/exclusive";
 
-const TABLE_HEAD = ["Title", "Description", "Image", "Edit/Delete"];
+const TABLE_HEAD = ["Title", "Image", "Edit/Delete"];
 const TABLE_ROWS = [
   {
     name: "John Michael",
@@ -41,10 +42,14 @@ const TABLE_ROWS = [
 const BannerTable = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
+
+  const { data } = useGetAllBannerQuery();
+  console.log(data?.data);
+
   return (
     <div>
       {/* table lists */}
-      <Card className="h-[500px] w-full overflow-y-scroll">
+      <Card className="h-[700px] w-full overflow-y-scroll">
         <table className="w-full min-w-max table-auto text-center">
           <thead className="sticky top-0 z-10">
             <tr>
@@ -65,34 +70,26 @@ const BannerTable = () => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(({ name, job, date }, index) => (
-              <tr key={name} className="even:bg-blue-gray-50/50">
+            {data?.data?.slice().reverse().map(({ title, image, _id }, index) => (
+              <tr key={_id} className="even:bg-blue-gray-50/50">
                 <td className="p-4">
                   <Typography
-                    variant="small"
+                    variant="medium"
                     color="blue-gray"
-                    className="font-normal"
+                    className="font-normal uppercase"
                   >
-                    {name}
+                    {title}
                   </Typography>
                 </td>
-                <td className="p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {job}
-                  </Typography>
-                </td>
-                <td className="p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {date}
-                  </Typography>
+
+                <td className="py-4">
+                  <div className=" w-[170px] h-[170px] mx-auto">
+                    <img
+                      src={image}
+                      alt="not found"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
                 </td>
                 <td className="p-4 ">
                   <div className="flex gap-[4px] justify-center">
