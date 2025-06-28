@@ -56,6 +56,7 @@ const BannerComponent = () => {
               <span className="text-red-600">This field is required*</span>
             )}
           </div>
+          {/* image upload filed */}
           <div className="flex items-center justify-center w-full">
             <label
               htmlFor="dropzone-file"

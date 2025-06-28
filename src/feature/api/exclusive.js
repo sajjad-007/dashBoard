@@ -7,6 +7,7 @@ export const exclusiveApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/v1" }),
   tagTypes: ["banner"],
   endpoints: (builder) => ({
+    //BANNER PART
     uploadBanner: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
       query: (data) => ({
@@ -43,6 +44,41 @@ export const exclusiveApi = createApi({
       }),
       invalidatesTags: ["banner"],
     }),
+    //CATEGORY PART
+    uploadCategory: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: (data) => ({
+        url: `/category`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["banner"],
+    }),
+    getAllCategory: builder.query({
+      query: () => `/category`,
+      providesTags: ["banner"],
+    }),
+    updateCategory: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: (data) => {
+        const formdata = new FormData();
+        formdata.append("name", data.name);
+        formdata.append("image", data.image);
+        return {
+          url: `/category/${data.id}`,
+          method: "PUT",
+          body: formdata,
+        };
+      },
+      invalidatesTags: ["banner"],
+    }),
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["banner"],
+    }),
   }),
 });
 
@@ -53,4 +89,8 @@ export const {
   useGetAllBannerQuery,
   useUpdateBannerMutation,
   useDeleteBannerMutation,
+  useUploadCategoryMutation,
+  useGetAllCategoryQuery,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
 } = exclusiveApi;

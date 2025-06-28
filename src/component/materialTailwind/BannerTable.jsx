@@ -170,6 +170,7 @@ const BannerTable = () => {
                   // {...register(temp.title)}
                 />
               </div>
+              {/* we must change our (<input id="dropzone-file2"/>) name */}
               <div className="flex items-center gap-5  justify-center w-full">
                 <div className="h-[full] w-[89%] rounded-xl">
                   <img
