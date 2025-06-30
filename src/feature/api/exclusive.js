@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const exclusiveApi = createApi({
   reducerPath: "exclusive",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/v1" }),
-  tagTypes: ["banner"],
+  tagTypes: ["banner", "category", "sub-category"],
   endpoints: (builder) => ({
     //BANNER PART
     uploadBanner: builder.mutation({
@@ -52,11 +52,11 @@ export const exclusiveApi = createApi({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["banner"],
+      invalidatesTags: ["category"],
     }),
     getAllCategory: builder.query({
       query: () => `/category`,
-      providesTags: ["banner"],
+      providesTags: ["category"],
     }),
     updateCategory: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
@@ -70,14 +70,27 @@ export const exclusiveApi = createApi({
           body: formdata,
         };
       },
-      invalidatesTags: ["banner"],
+      invalidatesTags: ["category"],
     }),
     deleteCategory: builder.mutation({
       query: (id) => ({
         url: `/category/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["banner"],
+      invalidatesTags: ["category"],
+    }),
+    //SUBCATEGORY PART START
+    getAllSubCategory: builder.query({
+      query: () => `/sub-category`,
+      providesTags: ["sub-category"],
+    }),
+    uploadSubCategory: builder.mutation({
+      query: (data) => ({
+        url: `/sub-category`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["sub-category"],
     }),
   }),
 });
@@ -93,4 +106,6 @@ export const {
   useGetAllCategoryQuery,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useGetAllSubCategoryQuery,
+  useUploadSubCategoryMutation,
 } = exclusiveApi;
