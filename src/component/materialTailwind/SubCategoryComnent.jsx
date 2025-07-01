@@ -11,13 +11,15 @@ import {
   Option,
 } from "@material-tailwind/react";
 import {
+  useDeleteSubCategoryMutation,
   useGetAllCategoryQuery,
   useGetAllSubCategoryQuery,
+  useUpdateSubCategoryMutation,
   useUploadSubCategoryMutation,
 } from "../../feature/api/exclusive";
 import { useForm } from "react-hook-form";
 import { DNA } from "react-loader-spinner";
-import { toastSuccess } from "../utility/toastify";
+import { toastError, toastSuccess } from "../utility/toastify";
 
 const TABLE_HEAD = ["SubCategory", "Category", "product", "Edit/Delete"];
 
@@ -29,6 +31,7 @@ const SubCategoryComnent = () => {
     name: "",
     category: "",
   });
+  const [deleteLoading, setDeleteLoading] = useState(null);
   // react form hook
   const {
     register,
@@ -49,6 +52,9 @@ const SubCategoryComnent = () => {
     useGetAllCategoryQuery();
   const [uploadSubCategory, { isLoading: upSubCategoryLoading }] =
     useUploadSubCategoryMutation();
+  const [updateSubCategory, { isLoading: updateSubCatLoading }] =
+    useUpdateSubCategoryMutation();
+  const [deleteSubCategory] = useDeleteSubCategoryMutation();
 
   //upload sub-category / ALL HANDLER START START
   const handleUploadSubCat = async (data) => {
@@ -64,12 +70,42 @@ const SubCategoryComnent = () => {
       reset();
     }
   };
+
   const handleOpen = (item) => {
     setTempState(item);
     setOpen(!open);
   };
-  const handleUpdateSubCategory = () => {
-    console.log(userCatVal);
+  const handleUpdateSubCategory = async () => {
+    try {
+      const response = await updateSubCategory({
+        ...userCatVal,
+        id: tempState._id,
+      });
+      if (response?.data?.statusCode == 200) {
+        toastSuccess(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("error from handle update subcategory", error);
+      toastError(error?.data?.message);
+    } finally {
+      reset();
+      setOpen(!open);
+    }
+  };
+  //handle delete
+  const handleDelete = async (subid) => {
+    setDeleteLoading(subid);
+    try {
+      const response = await deleteSubCategory(subid);
+      console.log(response)
+      if (response?.data?.statusCode == 200) {
+        toastSuccess(response?.data?.message);
+      }
+    } catch (error) {
+      console.error("error from handle delete", error);
+    }finally{
+      setDeleteLoading(null)
+    }
   };
   // ALL HANDLER ENDS HERE
   return (
@@ -203,10 +239,33 @@ const SubCategoryComnent = () => {
                     </td>
                     <td className="p-4 ">
                       <div className="flex gap-[4px] justify-center">
-                        <Button color="green" onClick={() => handleOpen(item)}>
-                          Edit
-                        </Button>
-                        <Button color="red">Del</Button>
+                        {deleteLoading == item?._id ? (
+                          <div className="mx-auto">
+                            <DNA
+                              visible={true}
+                              height="100"
+                              width="100"
+                              ariaLabel="dna-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="dna-wrapper"
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex gap-[6px] justify-center">
+                            <Button
+                              color="green"
+                              onClick={() => handleOpen(item)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              color="red"
+                              onClick={() => handleDelete(item?._id)}
+                            >
+                              Del
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -261,24 +320,37 @@ const SubCategoryComnent = () => {
                 </div>
               </div>
             </DialogBody>
-            <DialogFooter className="mt-4">
-              <Button
-                variant="text"
-                color="red"
-                onClick={handleOpen}
-                className="mr-1"
-              >
-                <span>Cancel</span>
-              </Button>
-              <Button
-                variant="gradient"
-                color="green"
-                type="submit"
-                onClick={handleUpdateSubCategory}
-              >
-                <span>Update</span>
-              </Button>
-            </DialogFooter>
+            {updateSubCatLoading ? (
+              <div className="mx-auto">
+                <DNA
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="dna-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="dna-wrapper"
+                />
+              </div>
+            ) : (
+              <DialogFooter className="mt-4">
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleOpen}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  variant="gradient"
+                  color="green"
+                  type="submit"
+                  onClick={handleUpdateSubCategory}
+                >
+                  <span>Update</span>
+                </Button>
+              </DialogFooter>
+            )}
           </form>
         </Dialog>
       </div>

@@ -92,6 +92,24 @@ export const exclusiveApi = createApi({
       }),
       invalidatesTags: ["sub-category"],
     }),
+    updateSubCategory: builder.mutation({
+      query: (data) => ({
+        url: `/sub-category/${data.id}`,
+        method: "PUT",
+        body: {
+          name: data.name,
+          category: data.category,
+        },
+      }),
+      invalidatesTags: ["sub-category"],
+    }),
+    deleteSubCategory: builder.mutation({
+      query: (id) => ({
+        url: `/sub-category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["sub-category"],
+    }),
   }),
 });
 
@@ -108,4 +126,6 @@ export const {
   useDeleteCategoryMutation,
   useGetAllSubCategoryQuery,
   useUploadSubCategoryMutation,
+  useUpdateSubCategoryMutation,
+  useDeleteSubCategoryMutation,
 } = exclusiveApi;
