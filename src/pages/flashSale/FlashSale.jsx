@@ -1,5 +1,5 @@
 import React from 'react'
-import FlashsaleComponent from '../../component/materialTailwind/flashsaleComponent'
+import FlashsaleComponent from "../../component/materialTailwind/FlashsaleComponent"
 
 const FlashSale = () => {
   return (
