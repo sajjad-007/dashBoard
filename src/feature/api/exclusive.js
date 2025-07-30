@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Define a service using a base URL and expected endpoints
 export const exclusiveApi = createApi({
   reducerPath: 'exclusive',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_DOMAIN_URL}` }),
   tagTypes: ['banner', 'category', 'sub-category'],
   endpoints: builder => ({
     //BANNER PART
@@ -61,7 +61,7 @@ export const exclusiveApi = createApi({
       providesTags: ['category'],
     }),
     getSingleCategory: builder.query({
-      query:(id)=> `/category/${id}`
+      query: id => `/category/${id}`,
     }),
     updateCategory: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
@@ -119,14 +119,14 @@ export const exclusiveApi = createApi({
     }),
     //SUBCATEGORY PART END
 
-    //PRODUCT PART START 
+    //PRODUCT PART START
     uploadProduct: builder.mutation({
-      query: data =>({
+      query: data => ({
         url: `/product`,
-        method: "POST",
+        method: 'POST',
         body: data,
-      })
-    })
+      }),
+    }),
     //PRODUCT PART END
   }),
 });
@@ -148,5 +148,4 @@ export const {
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
   useUploadProductMutation,
-
 } = exclusiveApi;

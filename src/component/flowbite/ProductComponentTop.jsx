@@ -13,6 +13,12 @@ import {
   useGetSingleCategoryQuery,
   useUploadProductMutation,
 } from '../../feature/api/exclusive';
+import axios from 'axios';
+import {
+  toastError,
+  toastSuccess,
+} from '../../../../exclusive/src/component/utility/toastify';
+import { DNA } from 'react-loader-spinner';
 
 const ProductComponentTop = () => {
   const [productInfo, setProductInfo] = useState({
@@ -29,6 +35,7 @@ const ProductComponentTop = () => {
     description: '',
     image: '',
   });
+  const [loading, setLoading] = useState(false);
   const {
     data: categoryData,
     isLoading: categoryLoading,
@@ -44,9 +51,6 @@ const ProductComponentTop = () => {
   } = useGetSingleCategoryQuery(singleCategoryId, {
     skip: !singleCategoryId, // This prevents fetching when singleCategorydId is null
   });
-  //upload product
-  const [uploadProduct, { isLoading: uploadLoading }] =
-    useUploadProductMutation();
   //handle my all input value
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -78,15 +82,26 @@ const ProductComponentTop = () => {
   };
   // console.log(productInfo)
   const handleUploadProduct = async () => {
+    setLoading(true);
     try {
-      const formData = new FormData();
-      const response = await uploadProduct(productInfo);
-      console.log(productInfo)
-      if (response) {
-        console.log('success', response);
+      const response = await axios.post(
+        `${import.meta.env.VITE_DOMAIN_URL}/product`,
+        productInfo,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      if (response?.data?.statusCode == 200) {
+        toastSuccess(response?.data?.message);
+        console.log('success',response);
       }
     } catch (error) {
+      toastError(error?.response?.data?.message);
       console.log('error from uploadProduct', error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -310,10 +325,17 @@ const ProductComponentTop = () => {
         placeholder="Write product description here..."
       />
       <div className="flex items-center justify-center mt-8">
-        {uploadLoading ? (
-          <Button className="font-poppins bg-text2-black text-md capitalize px-6 py-4 ">
-            Loading....
-          </Button>
+        {loading ? (
+          <div className="mx-auto">
+            <DNA
+              visible={true}
+              height="120"
+              width="120"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
+          </div>
         ) : (
           <Button
             type="submit"
