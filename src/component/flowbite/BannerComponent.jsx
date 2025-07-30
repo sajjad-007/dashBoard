@@ -1,13 +1,13 @@
-import { Button, Input } from "@material-tailwind/react";
-import React from "react";
-import BannerTable from "../materialTailwind/BannerTable";
-import { useForm } from "react-hook-form";
+import { Button, Input } from '@material-tailwind/react';
+import React from 'react';
+import BannerTable from '../materialTailwind/BannerTable';
+import { useForm } from 'react-hook-form';
 import {
   useUploadBannerMutation,
   useGetAllBannerQuery,
-} from "../../feature/api/exclusive";
-import { toastError, toastSuccess } from "../utility/toastify";
-import { DNA } from "react-loader-spinner";
+} from '../../feature/api/exclusive';
+import { toastError, toastSuccess } from '../utility/toastify';
+import { DNA } from 'react-loader-spinner';
 const BannerComponent = () => {
   const {
     register,
@@ -19,19 +19,19 @@ const BannerComponent = () => {
   const [uploadBanner, { isLoading: bannerLoading, isError }] =
     useUploadBannerMutation();
   const { data } = useGetAllBannerQuery();
-  const handleBanner = async (data) => {
+  const handleBanner = async data => {
     try {
       // for postman form-data(image upload)
       const formdata = new FormData();
-      formdata.append("title", data.title);
-      formdata.append("image", data.image[0]);
+      formdata.append('title', data.title);
+      formdata.append('image', data.image[0]);
       const response = await uploadBanner(formdata);
       if (response?.data?.statusCode == 200) {
-        console.log("response success", response);
+        console.log('response success', response);
         toastSuccess(response?.data?.message);
       }
     } catch (error) {
-      console.log("error from handlebannerUpload", error);
+      console.log('error from handlebannerUpload', error);
       toastError();
     } finally {
       reset();
@@ -50,7 +50,7 @@ const BannerComponent = () => {
               label="Banner Title"
               color="black"
               name="title"
-              {...register("title", { required: true })}
+              {...register('title', { required: true })}
             />
             {errors.title && (
               <span className="text-red-600">This field is required*</span>
@@ -91,7 +91,7 @@ const BannerComponent = () => {
                 type="file"
                 className="hidden"
                 name="image"
-                {...register("image", { required: true })}
+                {...register('image', { required: true })}
               />
               {errors.image && (
                 <span className="text-red-600">This field is required*</span>
