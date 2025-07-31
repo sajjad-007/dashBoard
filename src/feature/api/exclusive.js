@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const exclusiveApi = createApi({
   reducerPath: 'exclusive',
   baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_DOMAIN_URL}` }),
-  tagTypes: ['banner', 'category', 'sub-category'],
+  tagTypes: ['banner', 'category', 'sub-category', 'product'],
   endpoints: builder => ({
     //BANNER PART
     uploadBanner: builder.mutation({
@@ -120,12 +120,9 @@ export const exclusiveApi = createApi({
     //SUBCATEGORY PART END
 
     //PRODUCT PART START
-    uploadProduct: builder.mutation({
-      query: data => ({
-        url: `/product`,
-        method: 'POST',
-        body: data,
-      }),
+    getAllProducts: builder.query({
+      query: () => `/product`,
+      providesTags: ['product'],
     }),
     //PRODUCT PART END
   }),
@@ -147,5 +144,5 @@ export const {
   useUploadSubCategoryMutation,
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
-  useUploadProductMutation,
+  useGetAllProductsQuery,
 } = exclusiveApi;

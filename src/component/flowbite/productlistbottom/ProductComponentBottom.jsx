@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,122 +8,125 @@ import {
   Textarea,
   Option,
   Select,
-} from "@material-tailwind/react";
-import ProductDialogBody from "./ProductDialogBody";
+} from '@material-tailwind/react';
+import ProductDialogBody from './ProductDialogBody';
+import { useGetAllProductsQuery } from '../../../feature/api/exclusive';
+import ProductSkeleton from './ProductSkeleton';
+import ErrorProduct from './ErrorProduct';
 
 const ProductComponentBottom = () => {
-  const products = [
-    {
-      id: 1,
-      name: 'Apple MacBook Pro 17"',
-      color: "Silver",
-      category: "Laptop",
-      subCategory: "Apple",
-      price: "$2999",
-      stock: 20,
-      rating: 4.5,
-      size: "17 inch",
-      discountPercentage: "10%",
-      review: "Excellent performance.",
-      image: "https://via.placeholder.com/50",
-      description: "A high-performance laptop with sleek design.",
-    },
-    {
-      id: 2,
-      name: "Microsoft Surface Pro",
-      color: "White",
-      category: "Laptop PC",
-      subCategory: "Microsoft",
-      price: "$1999",
-      stock: 15,
-      rating: 4.2,
-      size: "13 inch",
-      discountPercentage: "12%",
-      review: "Lightweight and powerful.",
-      image: "https://via.placeholder.com/50",
-      description: "A portable laptop and tablet in one.",
-    },
-    {
-      id: 2,
-      name: "Microsoft Surface Pro",
-      color: "White",
-      category: "Laptop PC",
-      subCategory: "Microsoft",
-      price: "$1999",
-      stock: 15,
-      rating: 4.2,
-      size: "13 inch",
-      discountPercentage: "12%",
-      review: "Lightweight and powerful.",
-      image: "https://via.placeholder.com/50",
-      description: "A portable laptop and tablet in one.",
-    },
-    {
-      id: 2,
-      name: "Microsoft Surface Pro",
-      color: "White",
-      category: "Laptop PC",
-      subCategory: "Microsoft",
-      price: "$1999",
-      stock: 15,
-      rating: 4.2,
-      size: "13 inch",
-      discountPercentage: "12%",
-      review: "Lightweight and powerful.",
-      image: "https://via.placeholder.com/50",
-      description: "A portable laptop and tablet in one.",
-    },
-  ];
-  const [open, setOpen] = React.useState(false);
+  const { data, isLoading, isError, refetch } = useGetAllProductsQuery();
+  // Pagination code is written by ChatGtp
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const productsData = data?.data || [];
+  const totalPages = Math.ceil(productsData.length / itemsPerPage);
+  //slice method take two arguments, the first is the starting index and the second is the ending index
+  // it returns a new array containing the elements from the original array starting from the starting index
+  const paginatedProducts = productsData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
-
+  //loading skeleton
+  if(isLoading){
+    return <ProductSkeleton/>
+  }
+  //if get any error then refetch product anything
+  const refetchFun = () => {
+    return refetch();
+  }
+  if(isError){
+    return <ErrorProduct refetch={refetchFun}/>
+  }
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {/* Main table  */}
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th className="px-6 py-3">Image</th>
-            <th className="px-6 py-3">Product name</th>
-            <th className="px-6 py-3">Category</th>
-            <th className="px-6 py-3">Subcategory</th>
-            <th className="px-6 py-3">Price</th>
-            <th className="px-6 py-3">Description</th>
-            <th className="px-6 py-3 text-center">Action</th>
+            <th className="px-4 py-2">Image</th>
+            <th className="px-2 py-2 text-center">Product name</th>
+            <th className="px-2 py-2 text-center">Category</th>
+            <th className="px-2 py-2 text-center">Subcategory</th>
+            <th className="px-2 py-2 text-center">Stock</th>
+            <th className="px-4 py-2">Price</th>
+            <th className="px-4 py-2 text-center">Description</th>
+            <th className="px-4 py-2 text-center">Action</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((item) => (
+          {paginatedProducts.map(item => (
             <tr
-              key={item.id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              key={item._id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-normal"
             >
-              <td className="px-6 py-4">
+              <td className="px-4 py-3">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-12 h-12 object-cover"
+                  className="w-12 h-12 object-cover rounded"
                 />
               </td>
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {item.name}
+              <td className="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white truncate max-w-[120px] font-normal text-sm text-center">
+                {item?.name}
               </td>
-              <td className="px-6 py-4">{item.category}</td>
-              <td className="px-6 py-4">{item.subCategory}</td>
-              <td className="px-6 py-4">{item.price}</td>
-              <td className="px-6 py-4">{item.description}</td>
-              <td className="px-6 py-4">
-                <div className="flex gap-[4px] justify-center">
-                  <Button color="green" onClick={handleOpen}>
+              <td className="px-1 py-3 text-center">
+                {item?.category ? item?.category?.name : 'none'}
+              </td>
+              <td className="px-1 py-3 text-center">
+                {item?.subCategory ? item?.subCategory?.name : 'none'}
+              </td>
+              <td className="px-2 py-3 text-center text-sm">
+                {item?.stock ?? '-'}
+              </td>
+              <td className="px-4 py-3 text-sm">{item.price}</td>
+              <td
+                className="px-4 py-3 w-[40px] truncate max-w-[150px] text-gray-700 text-sm"
+                dangerouslySetInnerHTML={{ __html: item?.description }}
+              >
+              </td>
+              <td className="px-2 py-2">
+                <div className="flex gap-2 justify-center">
+                  <Button
+                    color="green"
+                    className="px-3 py-1 text-xs font-normal"
+                    onClick={handleOpen}
+                  >
                     Edit
                   </Button>
-                  <Button color="red">Del</Button>
+                  <Button color="red" className="px-3 py-1 text-xs font-normal">
+                    Del
+                  </Button>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {/* Pagination controls, this code is written by ChatGtp*/}
+      <div className="flex justify-center items-center gap-2 py-4">
+        <Button
+          size="sm"
+          color="gray"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Prev
+        </Button>
+        <span className="text-xs font-medium">
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          size="sm"
+          color="gray"
+          disabled={currentPage === totalPages || totalPages === 0}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </Button>
+      </div>
       {/* Edit button details */}
       <Dialog open={open} handler={handleOpen}>
         <DialogBody>

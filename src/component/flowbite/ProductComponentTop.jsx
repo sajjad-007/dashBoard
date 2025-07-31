@@ -11,7 +11,6 @@ import 'react-quill/dist/quill.snow.css';
 import {
   useGetAllCategoryQuery,
   useGetSingleCategoryQuery,
-  useUploadProductMutation,
 } from '../../feature/api/exclusive';
 import axios from 'axios';
 import {
