@@ -43,6 +43,7 @@ const BannerTable = () => {
 
   const handleOpen = ({ ...obj }) => {
     setTemp(obj);
+    // console.log(obj)
     setOpen(!open);
   };
   const handleUpdate = async () => {

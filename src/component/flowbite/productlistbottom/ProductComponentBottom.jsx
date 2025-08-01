@@ -18,6 +18,7 @@ import ProductSkeleton from './ProductSkeleton';
 import ErrorProduct from './ErrorProduct';
 import { toastSuccess } from '../../utility/toastify';
 import { DNA } from 'react-loader-spinner';
+import { ImCross } from 'react-icons/im';
 
 const ProductComponentBottom = () => {
   const { data, isLoading, isError, refetch } = useGetAllProductsQuery();
@@ -27,7 +28,7 @@ const ProductComponentBottom = () => {
   // useState for delete product loading
   const [delLoading, setDelLoading] = useState(null);
   //state for edit part value
-  const [editVal,setEditVal] = useState(null)
+  const [editVal, setEditVal] = useState(null);
   // Pagination code is written by ChatGtp
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -63,7 +64,6 @@ const ProductComponentBottom = () => {
     setDelLoading(id);
     try {
       const response = await deleteProducts(id);
-
       if (response?.data?.statusCode == 200) {
         toastSuccess(response?.data.message);
       }
@@ -102,6 +102,9 @@ const ProductComponentBottom = () => {
                   alt={item.name}
                   className="w-12 h-12 object-cover rounded"
                 />
+                <div>
+                  
+                </div>
               </td>
               <td className="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white truncate max-w-[120px] font-normal text-sm text-center">
                 {item?.name}
@@ -178,27 +181,28 @@ const ProductComponentBottom = () => {
         </Button>
       </div>
       {/* Edit button details */}
-      <Dialog open={open} handler={handleOpen}>
-        <form onSubmit={e => e.preventDefault()}>
-          <DialogBody item={editVal}>
-            {/* body content page */}
-            <ProductDialogBody item={editVal} />
-            {/* body content page */}
-          </DialogBody>
-          <DialogFooter className="mt-4">
-            <Button
-              variant="text"
-              color="red"
-              onClick={handleOpen}
-              className="mr-1"
-            >
-              <span>Cancel</span>
-            </Button>
-            <Button variant="gradient" color="green" onClick={handleOpen}>
-              <span>Update</span>
-            </Button>
-          </DialogFooter>
-        </form>
+      <Dialog open={open} handler={handleOpen} className="relative">
+        <DialogBody item={editVal} handler={handleOpen}>
+          {/* body content page */}
+          <ProductDialogBody
+            item={editVal}
+            onClose={handleOpen}
+            refetch={refetchFun}
+          />
+          {/* body content page */}
+        </DialogBody>
+        <DialogFooter className="mt-4 absolute top-[-40px] right-[-30px]">
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleOpen}
+            className="mr-1 text-xl"
+          >
+            <span>
+              <ImCross />
+            </span>
+          </Button>
+        </DialogFooter>
       </Dialog>
     </div>
   );
