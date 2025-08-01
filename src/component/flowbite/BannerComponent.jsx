@@ -27,12 +27,11 @@ const BannerComponent = () => {
       formdata.append('image', data.image[0]);
       const response = await uploadBanner(formdata);
       if (response?.data?.statusCode == 200) {
-        console.log('response success', response);
         toastSuccess(response?.data?.message);
       }
     } catch (error) {
       console.log('error from handlebannerUpload', error);
-      toastError();
+       toastError(error?.response?.data?.message);
     } finally {
       reset();
     }

@@ -98,7 +98,7 @@ const BannerTable = () => {
             {data?.data
               ?.slice()
               ?.reverse()
-              ?.map(({ title, image, _id }, index) => (
+              ?.map(({ title, image, _id }) => (
                 <tr key={_id} className="even:bg-blue-gray-50/50">
                   <td className="p-4">
                     <Typography

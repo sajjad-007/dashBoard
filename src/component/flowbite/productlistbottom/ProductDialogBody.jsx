@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -7,7 +7,9 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 
-const ProductDialogBody = () => {
+const ProductDialogBody = ({item}) => {
+  const [tempval,setTempVal] = useState(null)
+  console.log(item)
   return (
     <div className="main-div flex flex-col gap-7">
       <div className="flex gap-4">

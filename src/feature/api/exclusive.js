@@ -124,6 +124,13 @@ export const exclusiveApi = createApi({
       query: () => `/product`,
       providesTags: ['product'],
     }),
+    deleteProducts: builder.mutation({
+      query: id => ({
+        url: `/product/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['product'],
+    }),
     //PRODUCT PART END
   }),
 });
@@ -145,4 +152,5 @@ export const {
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
   useGetAllProductsQuery,
+  useDeleteProductsMutation,
 } = exclusiveApi;
