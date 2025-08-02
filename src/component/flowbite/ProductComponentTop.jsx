@@ -35,6 +35,7 @@ const ProductComponentTop = () => {
     image: '',
   });
   const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState([]);
   const {
     data: categoryData,
     isLoading: categoryLoading,
@@ -54,12 +55,13 @@ const ProductComponentTop = () => {
   const handleInputChange = e => {
     const { name, value } = e.target;
     // Handle number inputs to convert them to numbers
+    
     if (name === 'stock' || name === 'price' || name === 'discountPercentage') {
       setProductInfo({ ...productInfo, [name]: parseInt(value) });
     } else if (name === 'rating') {
       setProductInfo({ ...productInfo, [name]: parseFloat(value) });
     } else if (name === 'image') {
-      setProductInfo({ ...productInfo, image: e.target.files[0] });
+      setProductInfo({ ...productInfo, image: e.target.files });
     } else {
       setProductInfo({ ...productInfo, [name]: value });
     }
@@ -83,9 +85,27 @@ const ProductComponentTop = () => {
   const handleUploadProduct = async () => {
     setLoading(true);
     try {
+      // Create FormData for proper file upload
+      const formData = new FormData();
+      
+      // Append all text fields
+      Object.keys(productInfo).forEach(key => {
+        //key is the name of the field
+        if (key !== 'image' && productInfo[key] !== null && productInfo[key] !== '') {
+          formData.append(key, productInfo[key]);
+        }
+      });
+      
+      // Append multiple images
+      if (productInfo.image && productInfo.image.length > 0) {
+        for (let i = 0; i < productInfo.image.length; i++) {
+          formData.append('image', productInfo.image[i]);
+        }
+      }
+      
       const response = await axios.post(
         `${import.meta.env.VITE_DOMAIN_URL}/product`,
-        productInfo,
+        formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -299,18 +319,29 @@ const ProductComponentTop = () => {
               className="hidden"
               name="image"
               onChange={handleInputChange}
+              multiple
             />
           </label>
         </div>
         {/* Image upload part */}
         {/* <Textarea label="Product Description" /> */}
-        <Textarea
+        <Input
+          size="md"
+          label="review"
+          color="black"
+          name="review"
+          className=" py-5 "
+          type="text"
+          onChange={handleInputChange}
+          value={productInfo.review}
+        />
+        {/* <Textarea
           label="Write Your Review"
           name="review"
           onChange={handleInputChange}
           value={productInfo.review}
           className="w-full h-full"
-        />
+        /> */}
       </div>
       {/* Image upload part end */}
 

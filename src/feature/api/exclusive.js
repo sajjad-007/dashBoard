@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const exclusiveApi = createApi({
   reducerPath: 'exclusive',
   baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_DOMAIN_URL}` }),
-  tagTypes: ['banner', 'category', 'sub-category', 'product'],
+  tagTypes: ['banner', 'category', 'sub-category', 'product', 'flash'],
   endpoints: builder => ({
     //BANNER PART
     uploadBanner: builder.mutation({
@@ -120,6 +120,7 @@ export const exclusiveApi = createApi({
     //SUBCATEGORY PART END
 
     //PRODUCT PART START
+
     getAllProducts: builder.query({
       query: () => `/product`,
       providesTags: ['product'],
@@ -132,6 +133,38 @@ export const exclusiveApi = createApi({
       invalidatesTags: ['product'],
     }),
     //PRODUCT PART END
+
+    //FlashSale PART START
+    createFlashSale: builder.mutation({
+      query: data => ({
+        url: `/flash`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['flash'],
+    }),
+    getAllFlashSale: builder.query({
+      query: () => `/flash`,
+      providesTags: ['flash'],
+    }),
+    deleteFlashSale: builder.mutation({
+      query: id => ({
+        url: `/flash/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['flash'],
+    }),
+    updateFlashSale: builder.mutation({
+      query: data => ({
+        url: `/flash/${data.id}`,
+        method: 'PUT',
+        body: {
+          name: data.name,
+          product: data.product,
+        },
+      }),
+    }),
+    //FlashSale PART End
   }),
 });
 
@@ -153,4 +186,8 @@ export const {
   useDeleteSubCategoryMutation,
   useGetAllProductsQuery,
   useDeleteProductsMutation,
+  useCreateFlashSaleMutation,
+  useGetAllFlashSaleQuery,
+  useDeleteFlashSaleMutation,
+  useUpdateFlashSaleMutation,
 } = exclusiveApi;
